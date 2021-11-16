@@ -1,5 +1,23 @@
 # mtq-analyseur-semantique
 
+## Prise en main 
+
+### Dépendances python
+
+Il faut commencer par installer les différentes bibliothèques utilisées dans nos sources. Ces bibliothèques sont listées dans le fichier [requirements.txt](./requirements.txt).
+
+```Shell
+    pip install -r requirements.txt
+```
+
+### Géneration du graphe
+
+pour générer un graph d'exemple
+
+```Shell
+    python src/graph/graph.py
+```
+
 ## Sujet du projet
 
 Le projet vise à programmer un **[analyseur sémantique](https://fr.wikipedia.org/wiki/Analyse_s%C3%A9mantique)** (simple) de textes français. L'analyse sera **une structure de graphe** calculée à partir du texte et sur laquelle on pourra **extraire des relations sémantiques**. Les relations sémantiques typiques sont celles que l'on peut trouver dans [JDM](http://www.jeuxdemots.org/jdm-about.php). L'implémentation se fera en Python.
@@ -32,7 +50,7 @@ une règle a une **partie gauche** qui est une conjonction de conditions à vér
 
 Implèmenter le **moteur de règles**, qui prend l'ensemble de règles pour les exécuter. L'algo le plus basique est d'exécuter toutes les règles dans l'ordre, et de recommencer tant que  le graphe est modifié (dans l'esprit  d'un [algorithme de Markov](https://fr.wikipedia.org/wiki/Algorithme_de_Markov)).
 
-### D**ésambiguïsation des termes**
+### Désambiguïsation des termes
 
 Il faut, dans les cas oû c'est possible, **désambiguïser les termes** ([désambiguïsation lexicale](https://fr.wikipedia.org/wiki/D%C3%A9sambigu%C3%AFsation_lexicale)) qui ont plusieurs sens. Les sens disponibles sont ceux de JDM.
 
