@@ -19,7 +19,7 @@
 - [ ]  Phase de test et de validation
   - [ ]  Tester le systeme sur `Vingt mille lieues sous les mers`
 - [ ]  Rapport et soutenance
-  - [ ]  Commencer la rédaction du rapport en parallèle de l'anvancer du projet
+  - [ ]  Commencer la rédaction du rapport en parallèle de l'anvancée du projet
   - [ ]  Diapos de soutenance
 
 ## TAF en cours

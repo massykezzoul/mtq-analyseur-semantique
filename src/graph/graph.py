@@ -1,6 +1,5 @@
 import networkx as nx
-
-# Function that takes a text and construct a graph
+import matplotlib.pyplot as plt 
 def text_to_graph(text):
     #! TODO: Prétraiter le texte avant de le parser
     #! text = pretraitement(text)
@@ -22,4 +21,14 @@ if __name__ == '__main__':
     graph = text_to_graph(test_text)
 
     print(f"Nodes: {graph.nodes}")
+       
+    
+    for edge in graph.edges : 
+        print(edge, graph.edges[edge[0],edge[1]]['weight'], graph.edges[edge[0],edge[1]]['type'])
     print(f"Edges: {graph.edges}")
+    
+    #subax1 = plt.subplot(121)
+    nx.draw(graph, with_labels=True, font_weight='bold')
+    #subax2 = plt.subplot(122)
+    plt.show()
+    
