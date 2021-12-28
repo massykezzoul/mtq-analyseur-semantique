@@ -1,10 +1,15 @@
 import networkx as nx
 import matplotlib.pyplot as plt 
+
+import networkx as nx
+import numpy as np
+import pylab
+
 def text_to_graph(text):
     #! TODO: Prétraiter le texte avant de le parser
     #! text = pretraitement(text)
     text_list = text.split()
-    graph = nx.Graph()
+    graph = nx.DiGraph(directed = True)
 
     # Add nodes to the graph
     for word in text_list:
@@ -25,10 +30,23 @@ if __name__ == '__main__':
     
     for edge in graph.edges : 
         print(edge, graph.edges[edge[0],edge[1]]['weight'], graph.edges[edge[0],edge[1]]['type'])
-    print(f"Edges: {graph.edges}")
     
-    #subax1 = plt.subplot(121)
-    nx.draw(graph, with_labels=True, font_weight='bold')
-    #subax2 = plt.subplot(122)
-    plt.show()
+    edge_labels=dict([((u,v,),d['weight'])
+                 for u,v,d in graph.edges(data=True)])
+    
+    r_succedges = []
+    for edge in graph.edges():
+        if graph.edges[edge[0],edge[1]]['type'] == 'r_succ': 
+            r_succedges.append(edge)
+            
+    edge_colors = ['black' if not edge in r_succedges else 'red' for edge in graph.edges()]
+                
+    pos=nx.spring_layout(graph)
+    nx.draw_networkx_edge_labels(graph,pos,edge_labels=edge_labels)
+    nx.draw_networkx(graph,pos, node_size=1500,edge_color=edge_colors,edge_cmap=plt.cm.Reds)
+    pylab.show()
+        
+    
+    
+    
     
