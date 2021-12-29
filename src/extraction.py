@@ -41,9 +41,8 @@ def extraction(word: str):
 
     categorie = []
     for N in tableau_noeuds:
-
         if (int(N[1]) in id):
-            categorie.append(N[2]);
+            categorie.append(N[2])
 
     return categorie
 
