@@ -58,17 +58,9 @@ def get_pos(categorie):
 
     return categorie_new
 
-
 if __name__ == '__main__':
     phrase = input("Entrez la phrase : \n")
     words = phrase.split(" ")
     for word in words:
-        if (word[len(word) - 1] in ['.', ',', '!', ':', '?', ';']):
-            print(word[:-1] + "  :: ")
-            print(extraction_jdm(str(word[:-1])))
-            print(word[len(word) - 1] + "  :: ")
-            print(extraction_jdm(str(word[len(word) - 1])))
-        else:
-            print(word + "  :: ")
-            print(extraction_jdm(str(word), rel='6'))
+        print(get_pos(extraction_jdm(word)))
                 
