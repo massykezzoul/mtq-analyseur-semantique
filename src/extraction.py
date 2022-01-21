@@ -71,11 +71,22 @@ def extraction_jdm(word: str,rel: str='4'):
 def get_pos(categorie):
     tabPOS = ["Adv", "Adj", "Conj", "Det", "Nom", "Pre", "Pro", "Ver","Punct"]
 
+    maxi = 0
     categorie_new = [] 
     for x in categorie:
         element = x[0].split(':')[0]
-        if element in tabPOS and element not in [y[0] for y in categorie_new]:
-            categorie_new.append((element, x[1]))
+        if element in tabPOS:
+            maxi = 0
+            for cat in categorie:
+                if element in cat[0] and cat[1] > maxi:
+                    maxi = cat[1]
+        
+            if element not in [y[0] for y in categorie_new]:
+                categorie_new.append((element, maxi))
+            else:
+                for i in range(len(categorie_new)):
+                    if element == categorie_new[i][0]:
+                        categorie_new[i] = (element, maxi)
 
     return categorie_new
 

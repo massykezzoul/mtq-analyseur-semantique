@@ -1,6 +1,7 @@
 from graph import graph as g
 from extraction import *
 from mwe_detection import complete_with_composed_words
+import rules.apply_rules
 import re
 
 if __name__  == "__main__":
@@ -26,7 +27,9 @@ if __name__  == "__main__":
             graphe.add_node(pos[0])
             graphe.add_edge(node, pos[0], type='r_pos', weight=pos[1])
 
-    #! Application des règles
+    # Application des règles
+    rule_file=''
+    apply_rules(graphe,rule_file)
 
     # affichage du graphe
     g.visualize_graph(graphe, True)
