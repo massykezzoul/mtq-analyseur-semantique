@@ -22,7 +22,7 @@ def text_to_graph(text):
 
 
 if __name__ == '__main__':
-    test_text = 'Hello world !'
+    test_text = 'le petit chat boit du lait de chèvre'
     graph = text_to_graph(test_text)
 
     print(f"Nodes: {graph.nodes}")
