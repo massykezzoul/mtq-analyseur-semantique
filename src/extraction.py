@@ -48,15 +48,16 @@ def extraction(word: str,rel: str='4'):
     return categorie
 
 
-phrase = input("Entrez la phrase : \n")
-words = phrase.split(" ")
-for word in words:
-    if (word[len(word) - 1] in ['.', ',', '!', ':', '?', ';']):
-        print(word[:-1] + "  :: ")
-        print(extraction(str(word[:-1])))
-        print(word[len(word) - 1] + "  :: ")
-        print(extraction(str(word[len(word) - 1])))
-    else:
-        print(word + "  :: ")
-        print(extraction(str(word)))
-            
+if __name__ == '__main__':
+    phrase = input("Entrez la phrase : \n")
+    words = phrase.split(" ")
+    for word in words:
+        if (word[len(word) - 1] in ['.', ',', '!', ':', '?', ';']):
+            print(word[:-1] + "  :: ")
+            print(extraction(str(word[:-1])))
+            print(word[len(word) - 1] + "  :: ")
+            print(extraction(str(word[len(word) - 1])))
+        else:
+            print(word + "  :: ")
+            print(extraction(str(word)))
+                
