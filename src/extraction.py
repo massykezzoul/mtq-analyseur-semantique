@@ -7,7 +7,7 @@ import requests
 
 # Prend le  mot et retourne grace au  code html correspondant depuis http://www.jeuxdemots.org/rezo-dump et on prendant pour l'instant la relation r_pos telque son poid avec le noeud du mot recercher est maximale.
 
-def extraction(word: str,rel: str='4'):
+def extraction_jdm(word: str,rel: str='4'):
     html = requests.get('http://www.jeuxdemots.org/rezo-dump.php?gotermsubmit=Chercher&gotermrel=' + word + '&rel='+rel)
     encoding = html.encoding if 'charset' in html.headers.get('content-type', '').lower() else None
     soup = BeautifulSoup(html.content, 'html.parser', from_encoding='iso-8859-1')
@@ -44,8 +44,19 @@ def extraction(word: str,rel: str='4'):
                 categorie.append((N[5].replace("'", ''), id[int(N[1])]))
             else:
                 categorie.append((N[2].replace("'", ''), id[int(N[1])]))
-
+    
     return categorie
+
+def get_pos(categorie):
+    tabPOS = ["Adv", "Adj", "Conj", "Det", "Nom", "Pre", "Pro", "Ver"]
+
+    categorie_new = [] 
+    for x in categorie:
+        element = x[0].split(':')[0]
+        if element in tabPOS and element not in [y[0] for y in categorie_new]:
+            categorie_new.append((element, x[1]))
+
+    return categorie_new
 
 
 if __name__ == '__main__':
@@ -54,10 +65,10 @@ if __name__ == '__main__':
     for word in words:
         if (word[len(word) - 1] in ['.', ',', '!', ':', '?', ';']):
             print(word[:-1] + "  :: ")
-            print(extraction(str(word[:-1])))
+            print(extraction_jdm(str(word[:-1])))
             print(word[len(word) - 1] + "  :: ")
-            print(extraction(str(word[len(word) - 1])))
+            print(extraction_jdm(str(word[len(word) - 1])))
         else:
             print(word + "  :: ")
-            print(extraction(str(word)))
+            print(extraction_jdm(str(word), rel='6'))
                 
