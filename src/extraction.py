@@ -1,11 +1,6 @@
-
-  
 import re
 import os
 import pickle
-from unittest import case
-from itertools import groupby
-from operator import itemgetter
 from bs4 import BeautifulSoup
 import requests
 
@@ -20,7 +15,7 @@ def extraction_jdm(word: str,rel: str='4'):
         fichier = open(chemin_absolu + '/cache/' + word + '.pkl', 'rb')
         categorie = pickle.load(fichier)
         fichier.close()
-        return categorie;
+        return categorie
     
     html = requests.get('http://www.jeuxdemots.org/rezo-dump.php?gotermsubmit=Chercher&gotermrel=' + word + '&rel='+rel)
     encoding = html.encoding if 'charset' in html.headers.get('content-type', '').lower() else None
@@ -86,13 +81,7 @@ def get_pos(categorie):
 
 if __name__ == '__main__':
     phrase = input("Entrez la phrase : \n")
-    words = phrase.split(" ");
+    words = phrase.split(" ")
     for word in words:
-        if (word[len(word) - 1] in ['.', ',', '!', ':', '?', ';']):
-            print(word[:-1] + "  :: ")
-            print(get_pos(extraction_jdm(word[:-1])))
-            print(word[len(word) - 1] + "  :: ")
-            print(get_pos(extraction_jdm(str(word[len(word) - 1]))))
-        else:
-            print(word + "  :: ")
-            print(get_pos(extraction_jdm(word)))
+        print(get_pos(extraction_jdm(word)))
+                

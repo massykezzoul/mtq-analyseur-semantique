@@ -30,11 +30,12 @@ def text_to_graph(text):
     return graph
 
 
-def visualize_graph(graph):
-    print(f"Nodes: {graph.nodes}")
-       
-    for edge in graph.edges : 
-        print(edge, graph.edges[edge[0],edge[1]]['weight'], graph.edges[edge[0],edge[1]]['type'])
+def visualize_graph(graph, verbose=False):
+    if verbose:
+        print(f"Nodes: {graph.nodes}")
+        
+        for edge in graph.edges : 
+            print(edge, graph.edges[edge[0],edge[1]]['weight'], graph.edges[edge[0],edge[1]]['type'])
     
     edge_labels=dict([((u,v,),d['weight'])
                  for u,v,d in graph.edges(data=True)])
@@ -52,6 +53,8 @@ def visualize_graph(graph):
     pylab.show()
         
     
-    
+if __name__ == '__main__':
+    text =  "le chat mange la souris"
+    visualize_graph(text_to_graph(text),True)
     
     

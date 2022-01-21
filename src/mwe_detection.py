@@ -11,20 +11,16 @@ def complete_with_composed_words_subgraph(graph, start, subtree, tree, words):
 
     if start_text in subtree:
         words.append(start)
-        print('word :' + str(words))
 
         # le premier mot est dans les premiers fils de l'arbre des mots composés
         edges = [e for e in graph.edges(start,True)]
         for edge in edges:
             if edge[2]['type'] == 'r_succ':
                 if edge[1].split('#')[1] in subtree[start_text]:
-                    print('kayen '+edge[1])
                     complete_with_composed_words_subgraph(graph, edge[1], subtree[start_text], tree, words)
                 else:
-                    print('makanche '+edge[1])
                     if '__end-mwe__' in subtree[start_text] :
                         n = ' '.join(words)
-                        print("adding node "+n)
 
                         graph.add_node(n)
 
