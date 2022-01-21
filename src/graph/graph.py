@@ -7,7 +7,7 @@ import pylab
 def text_to_graph(text):
     #! TODO: Prétraiter le texte avant de le parser
     #! text = pretraitement(text)
-    text_list = text.split()
+    text_list = text.lower().split()
     graph = nx.DiGraph(directed = True)
 
     # Add nodes to the graph
@@ -23,7 +23,7 @@ def text_to_graph(text):
 
 
 if __name__ == '__main__':
-    test_text = 'Hello world !'
+    test_text = 'Le chien mange le chat'
     graph = text_to_graph(test_text)
 
     print(f"Nodes: {graph.nodes}")
