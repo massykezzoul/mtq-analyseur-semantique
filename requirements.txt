@@ -1,1 +1,3 @@
 networkx[default]
+bs4
+tqdm

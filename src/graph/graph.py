@@ -1,28 +1,29 @@
 import networkx as nx
 import matplotlib.pyplot as plt 
 
-import networkx as nx
 import numpy as np
 import pylab
 
 def text_to_graph(text):
     #! TODO: Prétraiter le texte avant de le parser
     #! text = pretraitement(text)
-    text_list = text.split()
+    text_list = text.lower().split()
     graph = nx.DiGraph(directed = True)
 
     # Add nodes to the graph
+    graph.add_node('__start__')
     for word in text_list:
         graph.add_node(word)
 
     # Add edges to the graph
+    graph.add_edge('__start__', text_list[0], weight=1, type='r_succ')
     for i in range(len(text_list)-1):
         graph.add_edge(text_list[i], text_list[i+1], weight=1, type='r_succ')
     return graph
 
 
 if __name__ == '__main__':
-    test_text = 'le petit chat boit du lait de chèvre'
+    test_text = 'Le chien mange le chat'
     graph = text_to_graph(test_text)
 
     print(f"Nodes: {graph.nodes}")
