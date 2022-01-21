@@ -1,0 +1,17 @@
+#desambiguisation
+$x r_succ $y & $y r_pos Nom => $x r_pos Det
+$x r_succ $y & $y r_pos Adj & $y r_succ $z & $z r_pos Nom => $x r_pos Det
+$x r_succ $y & $y r_pos Ver => $x r_pos Pro
+$y r_succ $x & $y r_pos Ver => $x r_pos Pro
+
+
+#groupage
+$x r_pos Nom => $x GN
+$x r_pos Det & $y r_pos Nom & $x r_succ $y => $x $y GN
+$x r_pos Det & $x r_succ $y & $y r_pos Adj & $z r_pos Nom $y r_succ $z => $x $y $z GN
+$x r_pos Ver => $x GV
+
+
+#inference
+$x == GN & $y == GV & $x r_succ $y => $x r_agent-1 $y & $y r_agent $x
+
