@@ -1,31 +1,52 @@
 import json
 import networkx as nx
-
-# Cette fonction retourne vrai si la suite de mots est un mot composée (inclus dans l'arbre de mots)
-# words : liste de mots
-# tree : arbre de mots composés
-def is_composed_word(words, tree):
-    if words is None or len(words) == 0:
-        return False
-    if words[0] in tree:
-        return is_composed_word(word[:-1], tree[words[0]])
-    else:
-        return False
+from graph import graph as g
 
 # Complète le sous-graph avec les mots composés
-def complete_with_composed_words_subgraph(start, tree, words=[]):
-    if start in tree:
-        # le premier mot est dans les premiers fils de l'arbre des mots composés
-        for edge in graph.edges(start):
-            if type(edge) == 'r_succ':
-                if edge[1] in tree[start]:
-                    complete_with_composed_words_subgraph(edge[1], tree[start], words.append(start))
-                elif len(tree[start].keys()) == 0:
-                    graph.add_edge(start, edge[1], type='r_succ') ## Ajouter le mot composé dans le graph
+def complete_with_composed_words_subgraph(graph, start, subtree, tree, words):
+    if '#' in start:
+        start_text  = start.split('#')[1]
     else:
-        for edge in graph.edges(start):
-            if type(edge) == 'r_succ':
-                complete_with_composed_words_subgraph(edge[1], tree)
+        start_text = start
+
+    if start_text in subtree:
+        words.append(start)
+        print('word :' + str(words))
+
+        # le premier mot est dans les premiers fils de l'arbre des mots composés
+        edges = [e for e in graph.edges(start,True)]
+        for edge in edges:
+            if edge[2]['type'] == 'r_succ':
+                if edge[1].split('#')[1] in subtree[start_text]:
+                    print('kayen '+edge[1])
+                    complete_with_composed_words_subgraph(graph, edge[1], subtree[start_text], tree, words)
+                else:
+                    print('makanche '+edge[1])
+                    if '__end-mwe__' in subtree[start_text] :
+                        n = ' '.join(words)
+                        print("adding node "+n)
+
+                        graph.add_node(n)
+
+                        for edge in graph.in_edges(words[0],True):
+                            if edge[2]['type'] == 'r_succ':
+                                graph.add_edge(edge[0], n, type='r_succ', weight=1)
+
+                        for edge in graph.out_edges(words[-1],True):
+                            if edge[2]['type'] == 'r_succ':
+                                graph.add_edge(n, edge[1], type='r_succ', weight=1)
+                        complete_with_composed_words_subgraph(graph, edge[1], tree, tree, [])                
+                    else:
+                        if len(words) > 1:
+                            complete_with_composed_words_subgraph(graph, words[1], tree, tree, [])
+                        else:
+                            complete_with_composed_words_subgraph(graph, edge[1], tree, tree, [])
+
+                    
+    else:
+        for edge in graph.edges(start,True):
+            if edge[2]['type'] == 'r_succ':
+                complete_with_composed_words_subgraph(graph, edge[1], tree, tree, [])
     return
 
 # Complète le graph avec les mots composés
@@ -33,9 +54,17 @@ def complete_with_composed_words(graph, file_mwe='../data/mwe-tree.json'):
     with open(file_mwe, 'r') as f:
         tree = json.load(f)
 
-    start = '__start__'
-    edges = graph.edges(start)
+    start = '0#__start__'
+    edges = graph.edges(start,True)
     for edge in edges:
-        if type(edge) == 'r_succ':  # A adapter
-            complete_with_composed_words_subgraph(edge[1], tree)
-    return
+        if edge[2]['type'] == 'r_succ':  # A adapter
+            complete_with_composed_words_subgraph(graph, edge[1], tree, tree, [])
+    return graph
+
+if __name__ == '__main__':
+    text = "le petit chat boit du lait de vache"
+    graph  = g.text_to_graph(text)
+
+    graph = complete_with_composed_words(graph)
+    
+    g.visualize_graph(graph)

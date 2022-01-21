@@ -24,11 +24,21 @@ def build_mwe_tree_dict(filename):
             i += 1
         
         if i < len(phrase):
-            const = {}
+            # dédicace chakib men ta7te
+            const = {'__end-mwe__': {}}
             for word in reversed(phrase[i+1:]):
                 const = {word : const}
             pointeur[phrase[i]] = const
-        
+        else: 
+            pointeur = mwe_tree
+            i = 0
+            while phrase[i] in pointeur:
+                if i == len(phrase) - 1:
+                    pointeur[phrase[i]]['__end-mwe__'] = {}
+                    break
+                pointeur = pointeur[phrase[i]]
+                i += 1
+
     return mwe_tree 
 
 tree = build_mwe_tree_dict(filename)

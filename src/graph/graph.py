@@ -1,5 +1,6 @@
 import networkx as nx
 import matplotlib.pyplot as plt 
+import sys
 
 import numpy as np
 import pylab
@@ -8,27 +9,30 @@ def text_to_graph(text):
     #! TODO: Prétraiter le texte avant de le parser
     #! text = pretraitement(text)
     text_list = text.lower().split()
+    for i in range(len(text_list)):
+        text_list[i] = str(i+1) + '#' + text_list[i]
+
     graph = nx.DiGraph(directed = True)
+    i = 0
 
     # Add nodes to the graph
-    graph.add_node('__start__')
+    graph.add_node('0#__start__')
     for word in text_list:
         graph.add_node(word)
+    graph.add_node(str(len(text_list))+'#__end__')
+
 
     # Add edges to the graph
-    graph.add_edge('__start__', text_list[0], weight=1, type='r_succ')
+    graph.add_edge('0#__start__', text_list[0], weight=1, type='r_succ')
     for i in range(len(text_list)-1):
         graph.add_edge(text_list[i], text_list[i+1], weight=1, type='r_succ')
+    graph.add_edge(text_list[-1], str(len(text_list))+'#__end__', weight=1, type='r_succ')
     return graph
 
 
-if __name__ == '__main__':
-    test_text = 'Le chien mange le chat'
-    graph = text_to_graph(test_text)
-
+def visualize_graph(graph):
     print(f"Nodes: {graph.nodes}")
        
-    
     for edge in graph.edges : 
         print(edge, graph.edges[edge[0],edge[1]]['weight'], graph.edges[edge[0],edge[1]]['type'])
     
